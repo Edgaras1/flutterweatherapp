@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:weatherforecast/models/weather_model.dart';
 import 'package:weatherforecast/services/open_meteo.dart';
 import 'package:weatherforecast/utils/weather_code_helper.dart';
+import 'package:weatherforecast/widgets/search.dart';
 
 void main() => runApp(const MyApp());
 
@@ -14,11 +15,12 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   late Future<WeatherData> weatherData;
+  String location = "";
 
   @override
   void initState() {
     super.initState();
-    weatherData = fetchWeatherData(latitude: 52.52, longitude: 13.41);
+    weatherData = fetchWeatherData(latitude: '52.52', longitude: '13.41');
   }
 
   @override
@@ -29,9 +31,6 @@ class _MyAppState extends State<MyApp> {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
       home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Weather forecast'),
-        ),
         body: Center(
           child: FutureBuilder<WeatherData>(
             future: weatherData,
@@ -39,7 +38,15 @@ class _MyAppState extends State<MyApp> {
               if (snapshot.hasData) {
                 return Column(
                   children: <Widget>[
-                    Text("London"),
+                    buildSearchWidget(onSelected: (result) {
+                      setState(() {
+                        location = result.name;
+                        weatherData = fetchWeatherData(
+                            latitude: result.latitude.toString(),
+                            longitude: result.longitude.toString());
+                      });
+                    }),
+                    Text(location),
                     Text(
                         "Temp: ${snapshot.data!.current.temperature2m.toString()}°"),
                     Text(getWeatherDescription(
