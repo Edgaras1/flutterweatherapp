@@ -11,15 +11,18 @@ Widget buildSearchWidget({required Function(SearchResult result) onSelected}) {
     builder: (context, controller, focusNode) {
       return Padding(
         padding: const EdgeInsets.all(8.0),
-        child: TextField(
-            controller: controller,
-            focusNode: focusNode,
-            // autofocus: true,
-            decoration: const InputDecoration(
-              border: OutlineInputBorder(),
-              labelText: 'Search location',
-              prefixIcon: Icon(Icons.search),
-            )),
+        child: SizedBox(
+          height: 40,
+          child: TextField(
+              controller: controller,
+              focusNode: focusNode,
+              // autofocus: true,
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: 'Search location',
+                prefixIcon: Icon(Icons.search),
+              )),
+        ),
       );
     },
     hideOnEmpty: true,

@@ -1,38 +1,48 @@
-String getWeatherDescription(int code) {
-  final descriptions = {
-    0: "Clear sky",
-    1: "Mainly clear",
-    2: "Partly cloudy",
-    3: "Overcast",
-    45: "Fog",
-    48: "Depositing rime fog",
-    51: "Light drizzle",
-    53: "Moderate drizzle",
-    55: "Dense drizzle",
-    56: "Light freezing drizzle",
-    57: "Dense freezing drizzle",
-    61: "Slight rain",
-    63: "Moderate rain",
-    65: "Heavy rain",
-    66: "Light freezing rain",
-    67: "Heavy freezing rain",
-    71: "Slight snow fall",
-    73: "Moderate snow fall",
-    75: "Heavy snow fall",
-    77: "Snow grains",
-    80: "Slight rain showers",
-    81: "Moderate rain showers",
-    82: "Heavy rain showers",
-    85: "Slight snow showers",
-    86: "Heavy snow showers",
-    95: "Slight or moderate thunderstorm",
-    96: "Thunderstorm with slight hail",
-    99: "Thunderstorm with heavy hail",
-  };
+import 'package:flutter/material.dart';
 
-  if (descriptions.containsKey(code)) {
-    return descriptions[code]!;
+Map<int, Map<String, dynamic>> weatherData = {
+  0: {"desc": "Clear sky", "icon": Icons.sunny},
+  1: {"desc": "Mainly clear", "icon": Icons.cloud_outlined},
+  2: {"desc": "Partly cloudy", "icon": Icons.cloud_outlined},
+  3: {"desc": "Overcast", "icon": Icons.cloud},
+  45: {"desc": "Fog", "icon": Icons.foggy},
+  48: {"desc": "Depositing rime fog", "icon": Icons.foggy},
+  51: {"desc": "Light drizzle", "icon": Icons.question_mark},
+  53: {"desc": "Moderate drizzle", "icon": Icons.question_mark},
+  55: {"desc": "Dense drizzle", "icon": Icons.question_mark},
+  56: {"desc": "Light freezing drizzle", "icon": Icons.question_mark},
+  57: {"desc": "Dense freezing drizzle", "icon": Icons.question_mark},
+  61: {"desc": "Slight rain", "icon": Icons.storm},
+  63: {"desc": "Moderate rain", "icon": Icons.shower},
+  65: {"desc": "Heavy rain", "icon": Icons.question_mark},
+  66: {"desc": "Light freezing rain", "icon": Icons.question_mark},
+  67: {"desc": "Heavy freezing rain", "icon": Icons.question_mark},
+  71: {"desc": "Slight snow fall", "icon": Icons.question_mark},
+  73: {"desc": "Moderate snow fall", "icon": Icons.question_mark},
+  75: {"desc": "Heavy snow fall", "icon": Icons.question_mark},
+  77: {"desc": "Snow grains", "icon": Icons.question_mark},
+  80: {"desc": "Slight rain showers", "icon": Icons.shower},
+  81: {"desc": "Moderate rain showers", "icon": Icons.shower},
+  82: {"desc": "Heavy rain showers", "icon": Icons.question_mark},
+  85: {"desc": "Slight snow showers", "icon": Icons.question_mark},
+  86: {"desc": "Heavy snow showers", "icon": Icons.question_mark},
+  95: {"desc": "Slight or moderate thunderstorm", "icon": Icons.question_mark},
+  96: {"desc": "Thunderstorm with slight hail", "icon": Icons.storm},
+  99: {"desc": "Thunderstorm with heavy hail", "icon": Icons.storm},
+};
+
+String getWeatherDescription(int code) {
+  if (weatherData.containsKey(code)) {
+    return weatherData[code]!["desc"] as String;
   } else {
     return "Unknown code";
+  }
+}
+
+IconData getWeatherIcon(int code) {
+  if (weatherData.containsKey(code)) {
+    return weatherData[code]!["icon"] as IconData;
+  } else {
+    return Icons.help_outline;
   }
 }

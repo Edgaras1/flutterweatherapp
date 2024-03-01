@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:weatherforecast/models/weather_model.dart';
 import 'package:weatherforecast/services/open_meteo.dart';
-import 'package:weatherforecast/utils/weather_code_helper.dart';
-import 'package:weatherforecast/widgets/search.dart';
+import 'package:weatherforecast/widgets/search_widget.dart';
+import 'package:weatherforecast/widgets/today_forecast_widget.dart';
+import 'package:weatherforecast/widgets/week_forecast_widget.dart';
 
 void main() => runApp(const MyApp());
 
@@ -30,6 +31,7 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
+      themeMode: ThemeMode.dark,
       home: Scaffold(
         body: Center(
           child: FutureBuilder<WeatherData>(
@@ -46,12 +48,11 @@ class _MyAppState extends State<MyApp> {
                             longitude: result.longitude.toString());
                       });
                     }),
-                    Text(location),
-                    Text(
-                        "Temp: ${snapshot.data!.current.temperature2m.toString()}°"),
-                    Text(getWeatherDescription(
-                        snapshot.data!.current.weatherCode)),
-                    Expanded(child: buildWeatherList(snapshot.data!)),
+                    Expanded(
+                        child: buildTodayForecast(snapshot.data!, location)),
+                    Text("Weekly forecast"),
+                    const Divider(),
+                    Expanded(child: buildWeekForecast(snapshot.data!)),
                   ],
                 );
               } else if (snapshot.hasError) {
@@ -65,31 +66,4 @@ class _MyAppState extends State<MyApp> {
       ),
     );
   }
-}
-
-Widget buildTodayWeather(WeatherData weatherData) {
-  return Text(weatherData.current.weatherCode.toString());
-}
-
-Widget buildWeatherList(WeatherData weatherData) {
-  final List<DailyWeatherInfo> dailyInfoList = weatherData.daily.dailyInfoList;
-
-  List<Widget> weatherItems = [];
-  for (var dailyInfo in dailyInfoList) {
-    weatherItems.add(
-      ListTile(
-        title: Text(dailyInfo.date),
-        subtitle: Row(
-          children: [
-            Text("High: ${dailyInfo.maxTemp}°C"),
-            const Spacer(),
-            Text("Low: ${dailyInfo.minTemp}°C"),
-          ],
-        ),
-        trailing: const Icon(Icons.thermostat),
-      ),
-    );
-  }
-
-  return ListView(children: weatherItems);
 }
