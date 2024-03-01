@@ -1,9 +1,16 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
-import 'package:weatherforecast/models/weather_model.dart';
-import 'package:weatherforecast/services/open_meteo.dart';
-import 'package:weatherforecast/widgets/search_widget.dart';
-import 'package:weatherforecast/widgets/today_forecast_widget.dart';
-import 'package:weatherforecast/widgets/week_forecast_widget.dart';
+import 'package:intl/intl.dart';
+import 'package:weatherforecast/screens/home_screen.dart';
+
+final ThemeData lightTheme = ThemeData(
+  brightness: Brightness.light,
+);
+
+final ThemeData darkTheme = ThemeData(
+  brightness: Brightness.dark,
+);
 
 void main() => runApp(const MyApp());
 
@@ -15,55 +22,38 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  late Future<WeatherData> weatherData;
-  String location = "";
+  bool _isDarkMode = false;
+  Timer? _themeTimer;
 
   @override
   void initState() {
     super.initState();
-    weatherData = fetchWeatherData(latitude: '52.52', longitude: '13.41');
+    _scheduleThemeChange();
+  }
+
+  void _scheduleThemeChange() {
+    final nowHour =
+        int.parse(DateFormat.Hm().format(DateTime.now()).split(":")[0]);
+    final isNightTime = nowHour >= 20 || nowHour < 6;
+    if (_isDarkMode != isNightTime) setState(() => _isDarkMode = isNightTime);
+    final duration = Duration(hours: (isNightTime ? 6 : 20) - nowHour);
+    _themeTimer = Timer(duration, _scheduleThemeChange);
+  }
+
+  @override
+  void dispose() {
+    _themeTimer?.cancel();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Fetch Data Example',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-      ),
-      themeMode: ThemeMode.dark,
-      home: Scaffold(
-        body: Center(
-          child: FutureBuilder<WeatherData>(
-            future: weatherData,
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return Column(
-                  children: <Widget>[
-                    buildSearchWidget(onSelected: (result) {
-                      setState(() {
-                        location = result.name;
-                        weatherData = fetchWeatherData(
-                            latitude: result.latitude.toString(),
-                            longitude: result.longitude.toString());
-                      });
-                    }),
-                    Expanded(
-                        child: buildTodayForecast(snapshot.data!, location)),
-                    Text("Weekly forecast"),
-                    const Divider(),
-                    Expanded(child: buildWeekForecast(snapshot.data!)),
-                  ],
-                );
-              } else if (snapshot.hasError) {
-                return Text('hasError: ${snapshot.error}');
-              }
-
-              return const CircularProgressIndicator();
-            },
-          ),
-        ),
-      ),
+      debugShowCheckedModeBanner: false,
+      theme: lightTheme,
+      darkTheme: darkTheme,
+      themeMode: _isDarkMode ? ThemeMode.dark : ThemeMode.light,
+      home: const HomeScreen(),
     );
   }
 }

@@ -9,20 +9,19 @@ Widget buildSearchWidget({required Function(SearchResult result) onSelected}) {
   return TypeAheadField(
     controller: controller,
     builder: (context, controller, focusNode) {
-      return Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: SizedBox(
-          height: 40,
-          child: TextField(
-              controller: controller,
-              focusNode: focusNode,
-              // autofocus: true,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: 'Search location',
-                prefixIcon: Icon(Icons.search),
-              )),
-        ),
+      return SizedBox(
+        height: 40,
+        child: TextField(
+            controller: controller,
+            focusNode: focusNode,
+            // autofocus: true,
+            decoration: InputDecoration(
+              border: OutlineInputBorder(
+                borderSide: BorderSide(color: Theme.of(context).primaryColor),
+              ),
+              labelText: 'Search location',
+              prefixIcon: const Icon(Icons.search),
+            )),
       );
     },
     hideOnEmpty: true,
