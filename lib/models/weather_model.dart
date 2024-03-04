@@ -45,12 +45,18 @@ class CurrentUnits {
   final String interval;
   final String temperature2m;
   final String weatherCode;
+  final String relativeHumidity2m;
+  final String surfacePressure;
+  final String windSpeed10m;
 
   CurrentUnits({
     required this.time,
     required this.interval,
     required this.temperature2m,
     required this.weatherCode,
+    required this.relativeHumidity2m,
+    required this.surfacePressure,
+    required this.windSpeed10m,
   });
 
   factory CurrentUnits.fromJson(Map<String, dynamic> json) => CurrentUnits(
@@ -58,6 +64,9 @@ class CurrentUnits {
         interval: json['interval'] as String,
         temperature2m: json['temperature_2m'] as String,
         weatherCode: json['weather_code'] as String,
+        relativeHumidity2m: json['relative_humidity_2m'] as String,
+        surfacePressure: json['surface_pressure'] as String,
+        windSpeed10m: json['wind_speed_10m'] as String,
       );
 }
 
@@ -66,12 +75,18 @@ class Current {
   final int interval;
   final double temperature2m;
   final int weatherCode;
+  final int relativeHumidity2m;
+  final double surfacePressure;
+  final double windSpeed10m;
 
   Current({
     required this.time,
     required this.interval,
     required this.temperature2m,
     required this.weatherCode,
+    required this.relativeHumidity2m,
+    required this.surfacePressure,
+    required this.windSpeed10m,
   });
 
   factory Current.fromJson(Map<String, dynamic> json) => Current(
@@ -79,6 +94,9 @@ class Current {
         interval: json['interval'] as int,
         temperature2m: json['temperature_2m'] as double,
         weatherCode: json['weather_code'] as int,
+        relativeHumidity2m: json['relative_humidity_2m'] as int,
+        surfacePressure: json['surface_pressure'] as double,
+        windSpeed10m: json['wind_speed_10m'] as double,
       );
 }
 

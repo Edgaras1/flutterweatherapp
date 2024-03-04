@@ -16,7 +16,8 @@ class OpenMeteoService {
         await _client.get(Uri.https('api.open-meteo.com', '/v1/forecast', {
       'latitude': latitude,
       'longitude': longitude,
-      'current': 'temperature_2m,weather_code',
+      'current':
+          'temperature_2m,weather_code,relative_humidity_2m,surface_pressure,wind_speed_10m',
       'daily': 'weather_code,temperature_2m_max,temperature_2m_min',
       'timezone': 'Europe/London',
     }));

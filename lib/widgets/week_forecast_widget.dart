@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:weatherforecast/models/weather_model.dart';
 import 'package:weatherforecast/utils/date_utils.dart';
