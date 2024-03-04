@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:weatherforecast/models/geocoding_model.dart';
-import 'package:weatherforecast/services/open_meteo.dart';
 
-Widget buildSearchWidget({required Function(SearchResult result) onSelected}) {
+Widget buildSearchWidget({
+  required Function(SearchResult result) onSelected,
+  required Future<List<SearchResult>> Function(String query) suggestions,
+}) {
   TextEditingController controller = TextEditingController();
 
   return TypeAheadField(
@@ -45,9 +47,9 @@ Widget buildSearchWidget({required Function(SearchResult result) onSelected}) {
       onSelected(result as SearchResult);
       controller.clear();
     },
-    debounceDuration: const Duration(milliseconds: 1000),
+    debounceDuration: const Duration(milliseconds: 400),
     suggestionsCallback: (String search) async {
-      return search.isNotEmpty ? await fetchGeocodingData(search) : [];
+      return search.isNotEmpty ? await suggestions(search) : [];
     },
   );
 }

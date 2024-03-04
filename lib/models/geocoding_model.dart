@@ -25,7 +25,7 @@ class SearchResult {
   double longitude;
   double elevation;
   String featureCode;
-  String countryCode;
+  String? countryCode;
   int? admin1Id;
   int? admin2Id;
   int? admin3Id;
@@ -70,7 +70,7 @@ class SearchResult {
         longitude: json['longitude'] as double,
         elevation: json['elevation'] as double,
         featureCode: json['feature_code'] as String,
-        countryCode: json['country_code'] as String,
+        countryCode: json['country_code'] as String?,
         admin1Id: json['admin1_id'] as int?,
         admin2Id: json['admin2_id'] as int?,
         admin3Id: json['admin3_id'] as int?,

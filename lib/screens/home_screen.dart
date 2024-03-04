@@ -15,25 +15,32 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   late Future<WeatherData> _weatherData;
   String _location = "Vilnius";
+  final OpenMeteoService _openMeteoService = OpenMeteoService();
 
   @override
   void initState() {
     super.initState();
-    _weatherData = fetchWeatherData(latitude: '54.6892', longitude: '25.2798');
+    _weatherData = _openMeteoService.fetchWeatherData(
+        latitude: '54.6892', longitude: '25.2798');
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: buildSearchWidget(onSelected: (result) {
-          setState(() {
-            _location = result.name;
-            _weatherData = fetchWeatherData(
-                latitude: result.latitude.toString(),
-                longitude: result.longitude.toString());
-          });
-        }),
+        title: buildSearchWidget(
+          onSelected: (result) {
+            setState(() {
+              _location = result.name;
+              _weatherData = _openMeteoService.fetchWeatherData(
+                  latitude: result.latitude.toString(),
+                  longitude: result.longitude.toString());
+            });
+          },
+          suggestions: (String query) async {
+            return _openMeteoService.fetchGeocodingData(query);
+          },
+        ),
         actions: [
           // Padding(
           //   padding: const EdgeInsets.only(right: 12),
@@ -62,12 +69,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   const Divider(),
                   Flexible(
                     fit: FlexFit.loose,
-                    child: buildWeekForecast(snapshot.data!),
+                    child:
+                        buildWeekForecast(snapshot.data!.daily.dailyInfoList),
                   ),
                 ],
               );
             } else if (snapshot.hasError) {
-              return Text('hasError: ${snapshot.error}');
+              return Text('Error Occurred: ${snapshot.error}');
             }
 
             return const CircularProgressIndicator();

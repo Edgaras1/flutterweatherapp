@@ -1,11 +1,11 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:weatherforecast/models/weather_model.dart';
 import 'package:weatherforecast/utils/date_utils.dart';
 import 'package:weatherforecast/utils/weather_code_helper.dart';
 
-Widget buildWeekForecast(WeatherData weatherData) {
-  final List<DailyWeatherInfo> dailyInfoList = weatherData.daily.dailyInfoList;
-
+Widget buildWeekForecast(List<DailyWeatherInfo> dailyInfoList) {
   return ListView.builder(
     itemCount: dailyInfoList.length,
     itemBuilder: (context, index) {
