@@ -21,12 +21,13 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     _weatherData = _openMeteoService.fetchWeatherData(
-        latitude: '54.6892', longitude: '25.2798');
+          latitude: '54.6892', longitude: '25.2798');
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: buildSearchWidget(
           onSelected: (result) {
@@ -41,19 +42,6 @@ class _HomeScreenState extends State<HomeScreen> {
             return _openMeteoService.fetchGeocodingData(query);
           },
         ),
-        actions: [
-          // Padding(
-          //   padding: const EdgeInsets.only(right: 12),
-          //   child: IconButton(
-          //     icon: Icon(
-          //       _isDarkTheme ? Icons.brightness_2 : Icons.wb_sunny,
-          //     ),
-          //     onPressed: () {
-          //       setState(() => _isDarkTheme = !_isDarkTheme);
-          //     },
-          //   ),
-          // ),
-        ],
       ),
       body: Center(
         child: FutureBuilder<WeatherData>(
@@ -65,7 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   Flexible(
                       fit: FlexFit.tight,
                       child: buildTodayForecast(snapshot.data!, _location)),
-                  Text("Weekly forecast"),
+                  const Text("Weekly forecast"),
                   const Divider(),
                   Flexible(
                     fit: FlexFit.loose,

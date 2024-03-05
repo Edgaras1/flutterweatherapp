@@ -16,7 +16,6 @@ Widget buildSearchWidget({
         child: TextField(
             controller: controller,
             focusNode: focusNode,
-            // autofocus: true,
             decoration: InputDecoration(
               border: OutlineInputBorder(
                 borderSide: BorderSide(color: Theme.of(context).primaryColor),
@@ -26,6 +25,7 @@ Widget buildSearchWidget({
             )),
       );
     },
+    hideOnSelect: true,
     hideOnEmpty: true,
     itemBuilder: (context, result) {
       return ListTile(
@@ -45,7 +45,7 @@ Widget buildSearchWidget({
     },
     onSelected: (result) {
       onSelected(result as SearchResult);
-      controller.clear();
+      // controller.clear();
     },
     debounceDuration: const Duration(milliseconds: 400),
     suggestionsCallback: (String search) async {

@@ -14,11 +14,7 @@ Widget buildWeekForecast(List<DailyWeatherInfo> dailyInfoList) {
         title: Text(
           formatDate(dailyInfo.date).toUpperCase(),
         ),
-        subtitle: Row(
-          children: [
-            Text(getWeatherDescription(dailyInfo.weatherCode)),
-          ],
-        ),
+        subtitle: Text(getWeatherDescription(dailyInfo.weatherCode)),
         trailing: Text("${dailyInfo.maxTemp}°C / ${dailyInfo.minTemp}°C",
             style: const TextStyle(
               fontSize: 16.0,
